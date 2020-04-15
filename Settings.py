@@ -4,6 +4,7 @@ import pathlib
 BASE_DIR    = pathlib.Path(__file__).resolve().parent
 TRAIN_DIR   = BASE_DIR.joinpath('Dataset', 'Train')
 TEST_DIR    = BASE_DIR.joinpath('Dataset', 'Test')
+MODEL_DIR  = BASE_DIR.joinpath('Models')
 
 # File locations
 CLASSES_LIST    = BASE_DIR.joinpath('Classes_List.json')
