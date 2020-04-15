@@ -3,10 +3,7 @@ from Settings import *
 
 # External imports
 import tensorflow as tf
-import IPython.display as display
-from PIL import Image
 import numpy as np
-import matplotlib.pyplot as plt
 import os
 import pathlib
 import json
@@ -21,15 +18,16 @@ def writeClassNamesJson(data_dir):
 
 def get_label(file_path):
     class_names = json.load(open(CLASSES_LIST))
-    return tf.strings.split(file_path, os.path.sep)[-2] == class_names
+    label = tf.strings.split(file_path, os.path.sep)[-2] == class_names
+    return label
 
 def decode_data(data):
     # Convert raw data into gray-scale image
-    img = tf.io.decode_image(data, channels=1)
+    data = tf.io.decode_png(data, channels=1)
     # Convert image to floats on [0,1]
-    img = tf.image.convert_image_dtype(img, tf.float32)
+    data = tf.image.convert_image_dtype(data, tf.float32)
     # Resize and return image
-    return img #tf.image.resize(img, [IMG_WIDTH, IMG_HEIGHT])
+    return tf.image.resize(data, [IMG_HEIGHT, IMG_WIDTH])
 
 def process_path(file_path):
     label = get_label(file_path)
@@ -37,15 +35,13 @@ def process_path(file_path):
     data = decode_data(data)
     return data, label
 
-def getDataset(data_dir, file_ext='.png'):
+def getDataset(data_dir):
     """Generate and return tf.data.Dataset object.
 
     Parameters
     ----------
     data_dir : pathlib.Path
         Root directory of dataset partition
-    file_ext : str, optional
-        File extension of the data files
 
     Returns
     -------
