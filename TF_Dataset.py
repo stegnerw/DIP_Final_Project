@@ -54,9 +54,24 @@ def getDataset(data_dir):
     labeled_ds = list_ds.map(process_path, num_parallel_calls=tf.data.experimental.AUTOTUNE)
     return labeled_ds
 
+def prepDataset(
+    ds, batch_size=32, shuffle_buffer_size=1000, reshuffle_each_iteration=True,
+    shuffle_seed=0
+):
+    # Break dataset into batches
+    ds = ds.batch(batch_size)
+
+    # Set dataset to shuffle
+    ds = ds.shuffle(
+        shuffle_buffer_size, seed=shuffle_seed,
+        reshuffle_each_iteration=reshuffle_each_iteration
+    )
+
+    return ds
+
 if __name__ == '__main__':
     writeClassNamesJson(TEST_DIR)
     ds = getDataset(TEST_DIR)
-
+    ds = prepDataset(ds)
     print('Done generating dataset.')
 
