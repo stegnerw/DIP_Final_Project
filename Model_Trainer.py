@@ -4,6 +4,8 @@ from TF_Dataset import getDataset, prepDataset
 from Get_TF_Model import getDenseModel
 
 # External imports
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1' 
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
@@ -68,25 +70,25 @@ if __name__=='__main__':
     hidden_layers = []
     model_name = f'Dense_0x{0:03d}'
     # Generate model
-    print(f'Creating model {model_name}')
+    #print(f'Creating model {model_name}')
     models.append(getDenseModel(class_count, hidden_layers))
     model_names.append(model_name)
 
     # Generate dense model with hidden layers
-    for hl_count in [1, 2, 3, 4, 5]:
+    for hl_count in [1, 2, 3]:
         for hl_size in [32, 64, 128, 256, 512]:
             # Set model parameters
             class_count = len(json.load(open(CLASSES_LIST)))
             hidden_layers = [hl_size] * hl_count
             model_name = f'Dense_{hl_count}x{hl_size:03d}'
             # Generate model
-            print(f'Creating model {model_name}')
+            #print(f'Creating model {model_name}')
             models.append(getDenseModel(class_count, hidden_layers))
             model_names.append(model_name)
 
     # Train models
     for model, model_name in zip(models, model_names):
         model_dir = MODEL_DIR.joinpath(model_name)
-        trainModel(model, train_ds, test_ds, model_dir, epochs=1, verbose=1)
-        print(f'Done with {model_name}')
+        trainModel(model, train_ds, test_ds, model_dir, epochs=420, verbose=1)
+        #print(f'Done with {model_name}')
 
