@@ -1,14 +1,16 @@
 import pathlib
 
 # Directory locations
-BASE_DIR    = pathlib.Path(__file__).resolve().parent
-TRAIN_DIR   = BASE_DIR.joinpath('Dataset', 'Train')
-TEST_DIR    = BASE_DIR.joinpath('Dataset', 'Test')
-MODEL_DIR   = BASE_DIR.joinpath('Models')
-CACHE_DIR   = BASE_DIR.joinpath('.cache')
+BASE_DIR            = pathlib.Path(__file__).resolve().parent
+TRAIN_DIR           = BASE_DIR.joinpath('Dataset', 'Train')
+TEST_DIR            = BASE_DIR.joinpath('Dataset', 'Test')
+MODEL_DIR           = BASE_DIR.joinpath('Models')
+CACHE_DIR           = BASE_DIR.joinpath('.cache')
+TRAINING_LOG_DIR    = BASE_DIR.joinpath('Training_Logs')
+TB_DIR_NAME         = 'TensorBoard'
 
 # File locations
-CLASSES_LIST    = BASE_DIR.joinpath('Classes_List.json')
+CLASSES_LIST        = BASE_DIR.joinpath('Classes_List.json')
 
 # Constant definitions
 IMG_HEIGHT  = 32
