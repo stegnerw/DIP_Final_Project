@@ -1,12 +1,13 @@
+# Set tf log level
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2' 
+import tensorflow as tf
+
 # Custom imports
 from Settings import *
 from TF_Dataset import getDataset, prepDataset
-from Get_TF_Model import getCNN
-
+from Get_TF_Model import getCNN 
 # External imports
-import os
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '1' 
-import tensorflow as tf
 from tensorflow import keras
 import numpy as np
 import json
@@ -79,6 +80,6 @@ if __name__=='__main__':
     # Train models
     for model, model_name in zip(models, model_names):
         model_dir = MODEL_DIR.joinpath(model_name)
-        trainModel(model, train_ds, test_ds, model_dir, epochs=1, verbose=1)
+        trainModel(model, train_ds, test_ds, model_dir, epochs=1000, verbose=1)
         #print(f'Done with {model_name}')
 
