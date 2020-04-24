@@ -129,7 +129,7 @@ def getConfusionMatrix(model_dir):
     )
 
     # Evaluate each image and append to list
-    for i, data in enumerate(test_dataset.take(32)):
+    for i, data in enumerate(test_dataset):
         label = data[1]
         conf_mat_vals['Labels'].append(list(label[0]).index(True))
         pred = model.predict(data[0])
@@ -159,39 +159,9 @@ if __name__ == '__main__':
     # test_model_dir = MODEL_DIR.joinpath('Dense_0x000')
     # downloadCSV(test_model_dir, HOST, PORT)
 
-<<<<<<< HEAD
-    # # Evaluate loss/accuracy of each network
-    # evals = []
-    # for m_dir in MODEL_DIR.iterdir():
-        # evals.append(evalNetworkAccuracy(m_dir))
-
-    # # Save results as csv
-    # csv_header = ['name', 'train_loss', 'train_accuracy', 'test_loss', 'test_accuracy']
-    # csv_file = []
-    # csv_file.append(csv_header)
-    # for ev in evals:
-        # new_row = []
-        # for key in csv_header:
-            # new_row.append(ev[key])
-        # csv_file.append(new_row)
-    # csv_file = np.asarray(csv_file)
-    # np.savetxt(str(TRAINING_LOG_DIR.joinpath('acc_loss.csv')), csv_file, delimiter=',', fmt='%s')
-
-    m_dirs = [d for d in MODEL_DIR.iterdir()]
-    m_dirs.sort()
-    for m_dir in m_dirs:
-        conf_mat = getConfusionMatrix(m_dir)
-        csv_name = f'{m_dir.name}.csv'
-        np.savetxt(
-            str(TRAINING_LOG_DIR.joinpath(csv_name)),
-            conf_mat, delimiter=',', fmt='%u'
-        )
-=======
     # Evaluate loss/accuracy of each network
     evals = []
-    m_dirs = [m for m in MODEL_DIR.iterdir()]
-    m_dirs.sort()
-    for m_dir in m_dirs:
+    for m_dir in MODEL_DIR.iterdir():
         evals.append(evalNetworkAccuracy(m_dir))
 
     # Save results as csv
@@ -205,7 +175,16 @@ if __name__ == '__main__':
         csv_file.append(new_row)
     csv_file = np.asarray(csv_file)
     np.savetxt(str(TRAINING_LOG_DIR.joinpath('acc_loss.csv')), csv_file, delimiter=',', fmt='%s')
->>>>>>> 048a283f452595b8da68717a3bc4a29a185e854d
+
+    m_dirs = [d for d in MODEL_DIR.iterdir()]
+    m_dirs.sort()
+    for m_dir in m_dirs:
+        conf_mat = getConfusionMatrix(m_dir)
+        csv_name = f'{m_dir.name}.csv'
+        np.savetxt(
+            str(TRAINING_LOG_DIR.joinpath(csv_name)),
+            conf_mat, delimiter=',', fmt='%u'
+        )
 
     print('Done')
 
