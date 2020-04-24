@@ -89,6 +89,6 @@ if __name__=='__main__':
     # Train models
     for model, model_name in zip(models, model_names):
         model_dir = MODEL_DIR.joinpath(model_name)
-        trainModel(model, train_ds, test_ds, model_dir, epochs=2000, verbose=1)
+        trainModel(model, train_ds, test_ds, model_dir, epochs=420, verbose=1)
         #print(f'Done with {model_name}')
 
