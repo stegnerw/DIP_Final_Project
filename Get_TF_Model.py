@@ -35,7 +35,7 @@ def getDenseModel(class_count, hidden_layer_sizes, activation='relu'):
     for layer_size in hidden_layer_sizes:
         model.add(keras.layers.Dense(layer_size, activation=activation))
     model.add(keras.layers.Dense(class_count, activation='softmax'))
-    model.compile(loss=keras.losses.CategoricalCrossentropy(), optimizer=keras.optimizers.Adam(0.001), metrics=['accuracy'])
+    model.compile(loss=keras.losses.CategoricalCrossentropy(), optimizer=keras.optimizers.SGD(0.001), metrics=['accuracy'])
     return model
 
 if __name__=='__main__':

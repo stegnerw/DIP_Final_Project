@@ -70,7 +70,7 @@ if __name__=='__main__':
     hidden_layers = []
     model_name = f'Dense_0x{0:03d}'
     # Generate model
-    #print(f'Creating model {model_name}')
+    print(f'Creating model {model_name}')
     models.append(getDenseModel(class_count, hidden_layers))
     model_names.append(model_name)
 
@@ -80,15 +80,15 @@ if __name__=='__main__':
             # Set model parameters
             class_count = len(json.load(open(CLASSES_LIST)))
             hidden_layers = [hl_size] * hl_count
-            model_name = f'Dense_{hl_count}x{hl_size:03d}'
+            model_name = f'Dense_{hl_count}x{hl_size:03d}_SGD'
             # Generate model
-            #print(f'Creating model {model_name}')
+            print(f'Creating model {model_name}')
             models.append(getDenseModel(class_count, hidden_layers))
             model_names.append(model_name)
 
     # Train models
     for model, model_name in zip(models, model_names):
         model_dir = MODEL_DIR.joinpath(model_name)
-        trainModel(model, train_ds, test_ds, model_dir, epochs=420, verbose=1)
+        trainModel(model, train_ds, test_ds, model_dir, epochs=2000, verbose=1)
         #print(f'Done with {model_name}')
 

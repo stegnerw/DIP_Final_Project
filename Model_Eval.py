@@ -124,7 +124,9 @@ if __name__ == '__main__':
 
     # Evaluate loss/accuracy of each network
     evals = []
-    for m_dir in MODEL_DIR.iterdir():
+    m_dirs = [m for m in MODEL_DIR.iterdir()]
+    m_dirs.sort()
+    for m_dir in m_dirs:
         evals.append(evalNetworkAccuracy(m_dir))
 
     # Save results as csv
