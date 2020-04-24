@@ -153,18 +153,17 @@ if __name__ == '__main__':
     # PORT        = '8080'
     # URL         = f'{HOST}:{PORT}'
 
-    # # Create necessary directories
+    # Create necessary directories
     TRAINING_LOG_DIR.mkdir(exist_ok=True)
 
-    # test_model_dir = MODEL_DIR.joinpath('Dense_0x000')
-    # downloadCSV(test_model_dir, HOST, PORT)
+    # Get sorted list of models
+    m_dirs = [d for d in MODEL_DIR.iterdir()]
+    m_dirs.sort()
 
     # Evaluate loss/accuracy of each network
     evals = []
-    for m_dir in MODEL_DIR.iterdir():
+    for m_dir in m_dirs:
         evals.append(evalNetworkAccuracy(m_dir))
-
-    # Save results as csv
     csv_header = ['name', 'train_loss', 'train_accuracy', 'test_loss', 'test_accuracy']
     csv_file = []
     csv_file.append(csv_header)
@@ -176,8 +175,7 @@ if __name__ == '__main__':
     csv_file = np.asarray(csv_file)
     np.savetxt(str(TRAINING_LOG_DIR.joinpath('acc_loss.csv')), csv_file, delimiter=',', fmt='%s')
 
-    m_dirs = [d for d in MODEL_DIR.iterdir()]
-    m_dirs.sort()
+    # Generate confusion matrices
     for m_dir in m_dirs:
         conf_mat = getConfusionMatrix(m_dir)
         csv_name = f'{m_dir.name}.csv'
