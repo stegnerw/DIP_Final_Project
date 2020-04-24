@@ -38,6 +38,24 @@ def getDenseModel(class_count, hidden_layer_sizes, activation='relu', optimizer=
     model.compile(loss=keras.losses.CategoricalCrossentropy(), optimizer=optimizer, metrics=['accuracy'])
     return model
 
+def getCNN(classes, kernel_counts, kernel_size, optimizer=keras.optimizers.Adam(0.001)):
+    model = keras.Sequential()
+    first_layer = True
+    for kernel_count in kernel_counts:
+        if first_layer:
+            first_layer = False
+            model.add(keras.layers.Conv2D(kernel_count, kernel_size, padding='same', activation='tanh', input_shape=(IMG_HEIGHT, IMG_WIDTH, 1)))
+        else:
+            model.add(keras.layers.Conv2D(kernel_count, (kernel_size, kernel_size), padding='same', activation='tanh'))
+        model.add(keras.layers.MaxPool2D(pool_size=(2,2)))
+        model.add(keras.layers.Dropout(0.25))
+    model.add(keras.layers.GlobalAvgPool2D())
+    model.add(keras.layers.Dense(256, activation='sigmoid'))
+    model.add(keras.layers.Dense(classes, activation='softmax'))
+    model.compile(loss=keras.losses.CategoricalCrossentropy(), optimizer=optimizer, metrics=['accuracy'])
+    return model
+
+
 if __name__=='__main__':
     class_count = len(json.load(open(CLASSES_LIST)))
     print(f'Class count: {class_count}')
