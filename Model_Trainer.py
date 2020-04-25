@@ -64,24 +64,27 @@ if __name__=='__main__':
     models = []
     model_names = []
 
+    # Generate dense model with no hidden layers
     # Set model parameters
     class_count = len(json.load(open(CLASSES_LIST)))
     hidden_layers = []
-    model_name = f'Dense_{0}x{0:03d}_SGD'
+    model_name = f'Dense_0x{0:03d}'
     # Generate model
-    print(f'Creating model {model_name}')
-    models.append(getDenseModel(class_count, hidden_layers, optimizer=tf.keras.optimizers.SGD(0.001)))
+    #print(f'Creating model {model_name}')
+    models.append(getDenseModel(class_count, hidden_layers))
     model_names.append(model_name)
 
-    # Generate dense model with Adam
-    # Set model parameters
-    class_count = len(json.load(open(CLASSES_LIST)))
-    hidden_layers = []
-    model_name = f'Dense_0x{0:03d}_Adam'
-    # Generate model
-    print(f'Creating model {model_name}')
-    models.append(getDenseModel(class_count, hidden_layers, optimizer=tf.keras.optimizers.Adam(0.001)))
-    model_names.append(model_name)
+    # Generate dense model with hidden layers
+    for hl_count in [1, 2, 3]:
+        for hl_size in [32, 64, 128, 256, 512]:
+            # Set model parameters
+            class_count = len(json.load(open(CLASSES_LIST)))
+            hidden_layers = [hl_size] * hl_count
+            model_name = f'Dense_{hl_count}x{hl_size:03d}'
+            # Generate model
+            #print(f'Creating model {model_name}')
+            models.append(getDenseModel(class_count, hidden_layers))
+            model_names.append(model_name)
 
     # Train models
     for model, model_name in zip(models, model_names):
